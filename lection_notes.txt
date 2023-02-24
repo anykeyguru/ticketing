@@ -57,7 +57,7 @@ to this:
 
 The warning will come up a few more times in this project (and throughout the course) when creating components and can be handled similarly.
 
-Small Update for Custom Webpack Config
+### Small Update for Custom Webpack Config
 
 In the upcoming lecture, we will be creating a next.config.js file and adding some configuration to it. The latest versions of Next.js use a newer version of Webpack which moves watchOptions out from webpackDevMiddleware.
 
