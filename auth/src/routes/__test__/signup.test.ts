@@ -2,13 +2,7 @@ import request from 'supertest';
 import { app } from '../../app';
 
 it('returns a 201 on successful signup', async () => {
-    return request(app)
-        .post('/api/users/signup')
-        .send({
-            email: 'test@test.com',
-            password: 'password'
-        })
-        .expect(201);
+    await global.signup(201);
 });
 
 
@@ -66,13 +60,7 @@ it('retunrs 400 with missing email and password fields', async () => {
 });
 
 it('dissalows duplicate email', async () => {
-    await request(app)
-        .post('/api/users/signup')
-        .send({
-            email: 'test@test.com',
-            password: 'password'
-        })
-        .expect(201);
+    const cookie = await global.signup(201);
 
     await request(app)
         .post('/api/users/signup')
