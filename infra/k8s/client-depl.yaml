@@ -22,6 +22,16 @@ spec:
                 secretKeyRef:
                   name: jwt-secret
                   key: JWT_KEY
+            - name: NEXT_TELEMETRY_DEBUG
+              valueFrom:
+                secretKeyRef:
+                  name: next-telemetry
+                  key: NEXT_TELEMETRY
+            - name: NEXT_TELEMETRY_DISABLED
+              valueFrom:
+                secretKeyRef:
+                  name: next-telemetry-disable
+                  key: NEXT_TELEMETRY_DISABLED
 ---
 apiVersion: v1
 kind: Service
