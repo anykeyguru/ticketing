@@ -1,3 +1,10 @@
+kubectl create secret generic next-telemetry-disable  --from-literal=NEXT_TELEMETRY_DISABLED=1
+kubectl create secret generic next-telemetry --from-literal=NEXT_TELEMETRY=1
+kubectl create secret generic jwt-secret --from-literal=jwt=secretword
+
+================
+
+
 globalThis has no index signature TS Error
 
 In the upcoming lecture (and later with the ticketing, orders and payments services) you may end up seeing a TS error like this in your test/setup.ts file:
@@ -72,3 +79,30 @@ So, the next.config.js file should now look like this:
 
 
 Note - If you are using the Next.js / React app and versions from the course resources this change does not apply.
+
+
+### A note about ECONNREFUSED errors
+
+In the upcoming lecture at about the 4:10 timestamp, we will be moving the axios request from the getInitialProps function directly to the LandingPage as part of an explanation. This will likely fail with a long ECONNREFUSED error in your Skaffold output.
+
+Node Alpine Docker images are now likely using the v16 version of Node, so, we will again encounter a situation that will require a catch block.
+
+Change this code in client/pages/index.js
+
+    const LandingPage = ({ currentUser }) => {
+      console.log(currentUser);
+      axios.get('/api/users/currentuser');
+     
+      return <h1>Landing Page</h1>;
+    };
+
+to this:
+
+    const LandingPage = ({ currentUser }) => {
+      console.log(currentUser);
+      axios.get('/api/users/currentuser').catch((err) => {
+        console.log(err.message);
+      });
+     
+      return <h1>Landing Page</h1>;
+    };
