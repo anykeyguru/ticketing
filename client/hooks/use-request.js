@@ -9,7 +9,7 @@ export default ({ url, method, body, onSuccess }) => {
 
         // Some cofig
         const instance = axios.create({
-            baseURL: process.env.CLIENT_BASE_URL
+            baseURL: "/"
         });
 
         // Request
