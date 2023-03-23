@@ -106,3 +106,19 @@ to this:
      
       return <h1>Landing Page</h1>;
     };
+
+### Typo in package.json "files" Field - Do Not Skip
+
+In the upcoming lecture, there is a small typo in the files field of the package.json. The video was edited with a callout at around the 1:48 timestamp, however, many students appear to be missing this fix.
+
+Make sure you update this line:
+
+    "files": [
+      "./build/**/*"
+    ],
+
+to this:
+
+    "files": [
+      "build/**/*"
+    ],

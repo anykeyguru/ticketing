@@ -9,8 +9,7 @@ import { signUpRouter } from './routes/signup';
 import { signInRouter } from './routes/singin';
 import { signOutRouter } from './routes/signout';
 // Errors
-import { errorHandler } from './middlewares/error-handler';
-import { NotFoundError } from './errors/not-found-error';
+import { errorHandler, NotFoundError } from '@qptickets/common';
 
 // Vars
 const PORT: number = 3000;

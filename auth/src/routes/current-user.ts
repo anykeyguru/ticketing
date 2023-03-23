@@ -1,6 +1,6 @@
 import express from 'express';
 // Middleware
-import { currentUser } from '../middlewares/current-user'
+import { currentUser } from '@qptickets/common'
 
 const router = express.Router();
 

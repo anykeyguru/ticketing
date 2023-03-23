@@ -2,11 +2,10 @@ import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import jwt from 'jsonwebtoken';
 // Middlewares
-import { validateRequest } from '../middlewares/validate-request';
+import { validateRequest, BadRequestError } from '@qptickets/common';
 // User
 import { User } from "../models/user";
 // Errors
-import { BadRequestError } from '../errors/bad-request-error';
 // Services
 import { Password } from '../services/password';
 
