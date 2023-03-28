@@ -26,6 +26,7 @@ const start = async () => {
             console.log(`Mconn ${error.messages}`);
         });
         console.log(`Connected to MongoDB: ${process.env.MONGO_URI}`);
+
     } catch (error) {
         console.log(`Error catch ${error}`);
 
