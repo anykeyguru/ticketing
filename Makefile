@@ -25,7 +25,8 @@ restart-dev:
 rebuild:
 	@./autho_rebuild_client.sh
 	@./autho_rebuild_auth.sh
-	@./autho_log_client.sh
+	@./autho_rebuild_tickets.sh
+#	@./autho_log_client.sh
 
 
 shutdown-global:
@@ -42,5 +43,8 @@ log-client:
 sk-deploy:
 	@make eval
 	@skaffold deploy
+
+clean-images:
+	@docker rmi $(shell docker images -f "dangling=true" -q) -f
 
 .PHONY: restart-dev eval
