@@ -122,3 +122,20 @@ to this:
     "files": [
       "build/**/*"
     ],
+
+In the upcoming lecture, we will be updating our src/test/setup.ts file.
+
+As a reminder, your global signin declaration should look like this after the refactor:
+
+declare global {
+  var signin: () => string[];
+}
+One small fix is required to return the cookie to prevent our tests from failing:
+
+Find the return of the global.signin method and change this:
+
+  return [`express:sess=${base64}`];
+
+to this:
+
+  return [`session=${base64}`];
