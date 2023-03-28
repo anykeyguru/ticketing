@@ -1,3 +1,5 @@
+echo "####"
+echo "BUILD: ernestmr/client"
 eval $(minikube -p minikube docker-env)
 cd ./client
 docker build -t ernestmr/client .
