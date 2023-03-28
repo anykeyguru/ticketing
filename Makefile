@@ -24,6 +24,7 @@ restart-dev:
 
 rebuild:
 	@./autho_rebuild_client.sh
+	@./autho_rebuild_auth.sh
 	@./autho_log_client.sh
 
 

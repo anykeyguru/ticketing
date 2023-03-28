@@ -1,7 +1,4 @@
 eval $(minikube -p minikube docker-env)
-cd ./auth
-docker build -t ernestmr/mk-auth .
-cd ..
 cd ./client
 docker build -t ernestmr/client .
 
