@@ -1,4 +1,3 @@
-
 init:
 	@make eval
 	@kubectl create secret generic next-telemetry-disable  --from-literal=NEXT_TELEMETRY_DISABLED=1 || true
@@ -23,10 +22,10 @@ restart-dev:
 	@kubectl apply -f infra/k8s/
 
 rebuild:
-	@./autho_rebuild_client.sh
-	@./autho_rebuild_auth.sh
-	@./autho_rebuild_tickets.sh
-#	@./autho_log_client.sh
+	@./scripts/autho_rebuild_client.sh
+	@./scripts/autho_rebuild_auth.sh
+	@./scripts/autho_rebuild_tickets.sh
+#	@./scripts/autho_log_client.sh
 
 
 shutdown-global:
@@ -38,7 +37,7 @@ powerup-global:
 	@make init
 
 log-client:
-	@./autho_log_client.sh
+	@./scripts/autho_log_client.sh
 
 sk-deploy:
 	@make eval
@@ -47,4 +46,6 @@ sk-deploy:
 clean-images:
 	@docker rmi $(shell docker images -f "dangling=true" -q) -f
 
+restart-nats:
+	@./scripts/autho_restart_nats.sh
 .PHONY: restart-dev eval
