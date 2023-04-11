@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { app } from '../../app';
 
+
 interface TicketObject {
     title: String;
     price: Number;
