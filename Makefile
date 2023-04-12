@@ -21,10 +21,21 @@ restart-dev:
 	@kubectl delete -f infra/k8s/ || true
 	@kubectl apply -f infra/k8s/
 
-rebuild:
+rebuild-client:
 	@./scripts/autho_rebuild_client.sh
+rebuild-auth:
 	@./scripts/autho_rebuild_auth.sh
+rebuild-tickets:
 	@./scripts/autho_rebuild_tickets.sh
+rebuild-orders:
+	@./scripts/autho_rebuild_orders.sh
+
+rebuild-all:
+	@make rebuild-client
+	@make rebuild-auth
+	@make rebuild-tickets
+	@make rebuild-orders
+
 #	@./scripts/autho_log_client.sh
 
 
