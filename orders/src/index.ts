@@ -1,4 +1,3 @@
-import { randomBytes } from 'crypto';
 import { app } from './app';
 // DB Mongo
 import mongoose from 'mongoose';
