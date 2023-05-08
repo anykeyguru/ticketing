@@ -18,7 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@qptickets/common": "^1.0.34",
+    "@qptickets/common": "^1.0.35",
     "@types/cookie-session": "^2.0.44",
     "@types/express": "^4.17.17",
     "@types/express-validator": "^3.0.0",

@@ -15,7 +15,15 @@ spec:
       containers:
         - name: auth-mongo
           image: mongo
+          #          args: [ "--dbpath","/data/db" ]
           imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - mountPath: /data/db
+              name: mo-data
+      volumes:
+        - name: mo-data
+          persistentVolumeClaim:
+            claimName: auth-mo-data-pvc
 ---
 apiVersion: v1
 kind: Service

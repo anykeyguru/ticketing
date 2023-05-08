@@ -16,6 +16,13 @@ spec:
         - name: tickets-mongo
           image: mongo
           imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - mountPath: /data/db
+              name: mo-data
+      volumes:
+        - name: mo-data
+          persistentVolumeClaim:
+            claimName: ticket-mo-data-pvc
 ---
 apiVersion: v1
 kind: Service

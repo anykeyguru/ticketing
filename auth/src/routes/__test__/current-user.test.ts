@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { app } from '../../app';
+import {app} from '../../app';
 
 it('response with details of current user', async () => {
     const cookie = await global.signup(201);
@@ -12,7 +12,7 @@ it('response with details of current user', async () => {
 
     // console.log(response.body);
 
-    expect(response.body.currentUser.email).toEqual('test@test.com');
+    expect(response.body.currentUser.email).toEqual('tests@tests.com');
 });
 
 it('response with bull if not auth-ed', async () => {

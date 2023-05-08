@@ -1,16 +1,15 @@
 import express from 'express';
 import 'express-async-errors';
-import { json } from 'body-parser';
+import {json} from 'body-parser';
 // Cookies
 import cookieSession from 'cookie-session';
 // Errors
-import { errorHandler, NotFoundError, currentUser } from '@qptickets/common';
+import {errorHandler, NotFoundError, currentUser} from '@qptickets/common';
 // Routers
-import { indexOrdersRouter } from './routes/index';
-import { newOrdersRouter } from './routes/new';
-import { deleteOrderRouter } from './routes/delete';
-import { showOrdersRouter } from './routes/show';
-import { updateOrdersRouter } from './routes/update';
+import {indexOrdersRouter} from './routes/index';
+import {newOrdersRouter} from './routes/new';
+import {deleteOrderRouter} from './routes/delete';
+import {showOrdersRouter} from './routes/show';
 
 // Vars
 const PORT: number = 3000;
@@ -36,7 +35,6 @@ app.use(indexOrdersRouter);
 app.use(newOrdersRouter);
 app.use(showOrdersRouter);
 app.use(deleteOrderRouter);
-app.use(updateOrdersRouter);
 
 app.all('*', async () => {
     throw new NotFoundError();
@@ -44,4 +42,4 @@ app.all('*', async () => {
 
 app.use(errorHandler);
 
-export { app };
+export {app};

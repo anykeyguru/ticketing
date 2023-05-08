@@ -11,8 +11,14 @@ if [ "$isupgrade"  == 'u' ]
 then 
     npm update @qptickets/common --save
 fi
-# 
-docker build -t $image . 
+#
+if [ "$isupgrade"  == 'c' ]
+then
+    docker build --no-cache -t  $image .
+else
+    docker build -t $image .
+fi
+
 
 #kubectl delete pod $(kubectl get pods | awk '/^$podname-.*$/{print $1}')
 #echo "Wait ..."

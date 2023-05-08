@@ -1,7 +1,7 @@
-import { MongoMemoryServer } from 'mongodb-memory-server';
+import {MongoMemoryServer} from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import request from 'supertest';
-import { app } from '../app';
+import {app} from '../app';
 
 declare global {
     var signup: (statusCode: number) => Promise<string[]>;
@@ -33,7 +33,7 @@ afterAll(async () => {
 });
 
 global.signup = async (statusCode: number) => {
-    const email = 'test@test.com';
+    const email = 'tests@tests.com';
     const password = 'password'
 
     const response = await request(app)

@@ -1,8 +1,8 @@
 import request from 'supertest';
-import { app } from '../../app';
-import { Ticket } from '../../models/ticket';
+import {app} from '../../app';
+import {Ticket} from '../../models/ticket';
 
-import { natsWrapper } from '../../nats-wrapper';
+import {natsWrapper} from '../../nats-wrapper';
 
 
 it('has a route hanler listening to /api/tickets for post request', async () => {
@@ -24,7 +24,7 @@ it('can only be accessed if the user is signed in', async () => {
 it('returns a status other than 401 if user is signed in', async () => {
     const response = await request(app)
         .post('/api/tickets')
-        //Pass cookie with jwt generated in test/setup.ts
+        //Pass cookie with jwt generated in tests/setup.ts
         .set('Cookie', global.signin())
         .send({});
 

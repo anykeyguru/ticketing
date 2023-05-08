@@ -11,7 +11,8 @@ spec:
     metadata:
       labels:
         app: auth
-    spec: 
+    spec:
+      shareProcessNamespace: true
       containers:
         - name: auth
           image: ernestmr/mk-auth
@@ -24,6 +25,13 @@ spec:
                 secretKeyRef:
                   name: jwt-secret
                   key: JWT_KEY
+          volumeMounts:
+            - mountPath: /tmp/service
+              name: service-data
+      volumes:
+        - name: service-data
+          persistentVolumeClaim:
+            claimName: service-pvc
 ---
 apiVersion: v1
 kind: Service

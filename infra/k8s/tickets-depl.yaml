@@ -11,7 +11,7 @@ spec:
     metadata:
       labels:
         app: tickets
-    spec: 
+    spec:
       containers:
         - name: tickets
           image: ernestmr/mk-tickets

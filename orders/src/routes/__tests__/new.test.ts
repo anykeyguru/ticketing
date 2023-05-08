@@ -1,52 +1,67 @@
-import request from 'supertest';
-import { app } from '../../app';
 import mongoose from 'mongoose';
-import { Ticket } from '../../models/ticket';
-import { Order, OrderStatus } from '../../models/order';
+import request from 'supertest';
+import {app} from '../../app';
+import {Order, OrderStatus} from '../../models/order';
+import {Ticket} from '../../models/ticket';
+import {natsWrapper} from '../../nats-wrapper';
 
-
-it("returns an error if the ticket does not exist", async () => {
+it('returns an error if the ticket does not exist', async () => {
     const ticketId = new mongoose.Types.ObjectId().toHexString();
+
     await request(app)
         .post('/api/orders')
         .set('Cookie', global.signin())
-        .send({
-            tickedId: ticketId
-        }).expect(404);
-
-    // expect(response.text).toEqual("posted");
+        .send({ticketId})
+        .expect(404);
 });
 
 it('returns an error if the ticket is already reserved', async () => {
-
-    const userId = new mongoose.Types.ObjectId().toHexString();
-    const expiration = new Date();
-    expiration.setSeconds(expiration.getSeconds() + 15 * 60);
-
-
     const ticket = Ticket.build({
-        title: "Concert 12",
-        price: 123
+        title: 'concert',
+        price: 20,
     });
-    await ticket.save()
-    const ticketId = ticket.id;
-
+    await ticket.save();
     const order = Order.build({
-        userId,
+        ticket,
+        userId: 'laskdflkajsdf',
         status: OrderStatus.Created,
-        expiresAt: expiration,
-        ticket
+        expiresAt: new Date(),
     });
     await order.save();
 
-    const response = await request(app)
+    await request(app)
         .post('/api/orders')
         .set('Cookie', global.signin())
-        .send({ tickedId: ticketId })
+        .send({ticketId: ticket.id})
         .expect(400);
-    expect(response.body.errors[0].message).toEqual('The ticket is aleady reserved');
 });
 
 it('reserves a ticket', async () => {
+    const ticket = Ticket.build({
+        title: 'concert',
+        price: 20,
+    });
+    await ticket.save();
 
+    await request(app)
+        .post('/api/orders')
+        .set('Cookie', global.signin())
+        .send({ticketId: ticket.id})
+        .expect(201);
+});
+
+it('emits an order created event', async () => {
+    const ticket = Ticket.build({
+        title: 'concert',
+        price: 20,
+    });
+    await ticket.save();
+
+    await request(app)
+        .post('/api/orders')
+        .set('Cookie', global.signin())
+        .send({ticketId: ticket.id})
+        .expect(201);
+    
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
 });

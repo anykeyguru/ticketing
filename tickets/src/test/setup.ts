@@ -1,7 +1,7 @@
-import { MongoMemoryServer } from 'mongodb-memory-server';
+import {MongoMemoryServer} from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import request from 'supertest';
-import { app } from '../app';
+import {app} from '../app';
 import jwt from "jsonwebtoken";
 
 
@@ -41,14 +41,14 @@ global.signin = () => {
     // Build a JWT payload {id, email}
     const payload = {
         id: new mongoose.Types.ObjectId().toHexString(),
-        email: "test@test.com"
+        email: "tests@tests.com"
     }
 
     // Create jwt
     const token = jwt.sign(payload, process.env.JWT_KEY!);
 
     // Build a session object {jwt: MY_JWT} "yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MWQ1NjE0ZWUwZjcyY2ViNWY1ODRlOCIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsImlhdCI6MTY3OTY0NDE4MH0.ekQOmMQUZOQ8-N_4ePRLh20VhFKP3Zbzf2pPaEYlEKo"
-    const session = { jwt: token }
+    const session = {jwt: token}
 
     // /Turn that session into JSON
     const sessionJSON = JSON.stringify(session);
