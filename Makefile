@@ -24,11 +24,11 @@ restart-dev:
 rebuild-client:
 	@./scripts/autho_rebuild_client.sh
 rebuild-auth:
-	@./scripts/autho_rebuild_auth.sh
+	@./scripts/autho_rebuild_auth.sh u
 rebuild-tickets:
-	@./scripts/autho_rebuild_tickets.sh
+	@./scripts/autho_rebuild_tickets.sh u
 rebuild-orders:
-	@./scripts/autho_rebuild_orders.sh
+	@./scripts/autho_rebuild_orders.sh u
 
 rebuild-all:
 	@make rebuild-client
