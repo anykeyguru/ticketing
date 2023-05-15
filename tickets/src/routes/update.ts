@@ -1,14 +1,14 @@
-import express, { Request, Response } from "express";
-import { body } from "express-validator";
+import express, {Request, Response} from "express";
+import {body} from "express-validator";
 import {
     NotAuthorisedError,
     NotFoundError,
     validateRequest,
     requireAuth,
 } from "@qptickets/common"
-import { Ticket } from '../models/ticket';
-import { TicketUpdatedPublisher } from "../events/publishers/ticket-updated-publisher";
-import { natsWrapper } from "../nats-wrapper";
+import {Ticket} from '../models/ticket';
+import {TicketUpdatedPublisher} from "../events/publishers/ticket-updated-publisher";
+import {natsWrapper} from "../nats-wrapper";
 
 
 const router = express.Router();
@@ -22,7 +22,7 @@ router.put(
             .isEmpty()
             .withMessage('Title is required'),
         body('price')
-            .isFloat({ gt: 0 })
+            .isFloat({gt: 0})
             .withMessage('Price must be provided and must be greater than 0'),
     ],
     validateRequest,
@@ -48,7 +48,8 @@ router.put(
                 id: ticket.id,
                 title: ticket.title,
                 price: ticket.price,
-                userId: ticket.userId
+                userId: ticket.userId,
+                version: ticket.version,
             }
         );
 
@@ -56,4 +57,4 @@ router.put(
     }
 );
 
-export { router as updateTicketRouter };
+export {router as updateTicketRouter};
