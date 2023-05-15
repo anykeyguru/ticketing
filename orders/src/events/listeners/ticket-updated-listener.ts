@@ -15,8 +15,12 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
             throw new Error('Ticket not found');
         }
 
-        const {title, price, version} = data;
-        ticket.set({title, price, version});
+        //For sel made versioning: see on ticket model snipet
+        // const {title, price, version} = data;
+        // ticket.set({title, price, version});
+        // await ticket.save();
+        const {title, price} = data;
+        ticket.set({title, price});
         await ticket.save();
 
         msg.ack();
