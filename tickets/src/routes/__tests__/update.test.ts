@@ -1,8 +1,9 @@
 import request from 'supertest';
-import { app } from '../../app';
+import {app} from '../../app';
 import mongoose from 'mongoose';
+import {Ticket} from "../../models/ticket";
 
-import { natsWrapper } from '../../nats-wrapper';
+import {natsWrapper} from '../../nats-wrapper';
 
 it('retuns a 404 if the provided id does not exists', async () => {
     const id = new mongoose.Types.ObjectId().toHexString();
@@ -10,7 +11,7 @@ it('retuns a 404 if the provided id does not exists', async () => {
         .put(`/api/tickets/${id}`)
         .set('Cookie', global.signin())
         .send(
-            { title: 'some title', price: 20 }
+            {title: 'some title', price: 20}
         )
         .expect(404);
 
@@ -21,7 +22,7 @@ it('retuns a 401 if the user is not authenticated', async () => {
     await request(app)
         .put(`/api/tickets/${id}`)
         .send(
-            { title: 'some title', price: 20 }
+            {title: 'some title', price: 20}
         )
         .expect(401);
 
@@ -39,12 +40,11 @@ it('returns a 401 if the user does not own the ticket', async () => {
         .expect(201);
 
 
-
     await request(app)
         .put(`/api/tickets/${response.body.id}`)
         .set('Cookie', global.signin())
         .send(
-            { title: 'some title 2', price: 22 }
+            {title: 'some title 2', price: 22}
         )
         .expect(401);
 
@@ -135,4 +135,31 @@ it('publishes an event', async () => {
         .expect(200);
 
     expect(natsWrapper.client.publish).toHaveBeenCalled();
+});
+
+
+it('rejects updates if the ticket is reserved', async () => {
+    const cookie = global.signin();
+    // Create ticket
+    const response = await request(app)
+        .post('/api/tickets')
+        .set('Cookie', cookie)
+        .send({
+            title: "some title",
+            price: 20
+        })
+        .expect(201);
+
+    const updatedTicket = await Ticket.findById(response.body.id);
+    updatedTicket!.set({orderId: new mongoose.Types.ObjectId().toHexString()});
+    await updatedTicket!.save();
+    // Update ticket
+    await request(app)
+        .put(`/api/tickets/${response.body.id}`)
+        .set('Cookie', cookie)
+        .send({
+            title: "new title +",
+            price: 100
+        })
+        .expect(400);
 });

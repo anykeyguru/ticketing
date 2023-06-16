@@ -74,7 +74,7 @@ ticketSchema.methods.isReserved = async function () {
             $in: [
                 OrderStatus.Created,
                 OrderStatus.AwaitingPayment,
-                OrderStatus.Comlete
+                OrderStatus.Comlete,
             ]
         }
     });

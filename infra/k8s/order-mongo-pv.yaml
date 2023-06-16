@@ -8,7 +8,7 @@ spec:
   capacity:
     storage: 100Mi
   hostPath:
-    path: /home/admin/ticketing/data/mongo/order
+    path: /data/mongo/order
     type: ""
   persistentVolumeReclaimPolicy: Retain
   storageClassName: standard

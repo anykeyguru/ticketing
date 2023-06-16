@@ -1,40 +1,105 @@
+# Load environment variables from .env file
+include .env
+export
 init:
 	@make eval
 	@kubectl create secret generic next-telemetry-disable  --from-literal=NEXT_TELEMETRY_DISABLED=1 || true
 	@kubectl create secret generic next-telemetry --from-literal=NEXT_TELEMETRY=1 || true
-	@kubectl create secret generic jwt-secret --from-literal=JWT_KEY=secretword || true
-	@kubectl create secret generic client-baseurl --from-literal=CLIENT_BASE_URL=https://ticketing.com || true
+	@kubectl create secret generic jwt-secret --from-literal=JWT_KEY=$(JWT_KEY) || true
+	@kubectl create secret generic client-baseurl --from-literal=CLIENT_BASE_URL=$(CLIENT_BASE_URL) || true
+	@kubectl create secret generic stripe-secret --from-literal=STRIPE_KEY=$(STRIPE_KEY) || true
+
+minikube-create:
+	@minikube stop || true
+	@minikube delete || true
+	@rm -rf ~/.minikube
+	@minikube start --memory 4096 --cpus 4 --driver docker --addons ingress
+	@sleep 20
+	@echo "define owner for /data folder"
+	@minikube ssh -- mkdir /data
+	@minikube ssh -- sudo chown -R docker:docker /data
+	@sleep 20
+	@echo "initialise environments vars"
+	@make init
 
 eval:
 	@eval $(minikube -p minikube docker-env)  || true
 
 start:
 	@make eval
-	@kubectl apply -f infra/k8s/
+	@./scripts/start_app.sh
+
 
 stop:
 	@make eval
-	@kubectl delete -f infra/k8s/
+	@./scripts/stop_app.sh
 
-restart-dev:
+restart:
 	@make eval
-	@kubectl delete -f infra/k8s/ || true
-	@kubectl apply -f infra/k8s/
+	@make stop  || true
+	@make start  || true
+
 
 rebuild-client:
-	@./scripts/autho_rebuild_client.sh
+	@make eval
+	@./scripts/rebuild_app.sh client $(ARG)
 rebuild-auth:
-	@./scripts/autho_rebuild_auth.sh u
+	@make eval
+	@./scripts/rebuild_app.sh auth $(ARG)
 rebuild-tickets:
-	@./scripts/autho_rebuild_tickets.sh u
+	@make eval
+	@./scripts/rebuild_app.sh tickets $(ARG)
 rebuild-orders:
-	@./scripts/autho_rebuild_orders.sh u
+	@make eval
+	@./scripts/rebuild_app.sh orders $(ARG)
+rebuild-expiration:
+	@make eval
+	@./scripts/rebuild_app.sh expiration $(ARG)
+rebuild-payments:
+	@make eval
+	@./scripts/rebuild_app.sh payments $(ARG)
 
-rebuild-all:
+docker-push:
+	@make eval
+	@docker push ernestmr/mk-orders
+	@make eval
+	@docker push ernestmr/mk-auth
+	@make eval
+	@docker push ernestmr/client
+	@make eval
+	@docker push ernestmr/mk-tickets
+	@make eval
+	@docker push ernestmr/mk-expiration
+	@make eval
+	@docker push ernestmr/mk-payments
+
+rebuildall:
+ifdef ARG
+	@echo "Performing update param - $(ARG)..."
+	@sleep 5
+endif
+
+ifeq ($(strip $(ARG)),c)
+	# Argument is "c"
+	@echo "Argument is equal to 'c'"
+	# Handle the case when the argument is "c"
+	# ...
+endif
+ifeq ($(strip $(ARG)),u)
+	# Argument is "u"
+	@echo "Argument is equal to 'u'"
+	# ...
+endif
 	@make rebuild-client
 	@make rebuild-auth
 	@make rebuild-tickets
 	@make rebuild-orders
+	@make rebuild-expiration
+	@make rebuild-payments
+
+sync-common:
+	@./scripts/sync_common.sh
+	@make rebuildall
 
 #	@./scripts/autho_log_client.sh
 
@@ -59,4 +124,7 @@ clean-images:
 
 restart-nats:
 	@./scripts/autho_restart_nats.sh
-.PHONY: restart-dev eval
+
+logs:
+	@kubectl get pods --namespace default -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}{end}' | xargs -I {} kubectl logs {} --namespace default
+.PHONY:  eval

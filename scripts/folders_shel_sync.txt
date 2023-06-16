@@ -1,0 +1,5 @@
+/home/ernest/projects/ticketing/msrvs-ticketing/auth
+/home/ernest/projects/ticketing/msrvs-ticketing/orders
+/home/ernest/projects/ticketing/msrvs-ticketing/tickets
+/home/ernest/projects/ticketing/msrvs-ticketing/expiration
+/home/ernest/projects/ticketing/msrvs-ticketing/payments

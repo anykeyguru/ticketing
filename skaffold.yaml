@@ -1,11 +1,12 @@
-apiVersion: skaffold/v2alpha3
+#apiVersion: skaffold/v2alpha3
+apiVersion: skaffold/v2beta12
 kind: Config
 metadata:
   name: ticketing
 deploy:
   kubectl:
     manifests:
-      - infra/k8s/*
+      - ./infra/k8s/*
 build:
   local:
     push: false
@@ -36,6 +37,22 @@ build:
             dest: .
     - image: ernestmr/mk-orders
       context: orders
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: ernestmr/mk-expiration
+      context: expiration
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: ernestmr/mk-payments
+      context: payments
       docker:
         dockerfile: Dockerfile
       sync:

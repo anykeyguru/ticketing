@@ -10,6 +10,7 @@ import {indexOrdersRouter} from './routes/index';
 import {newOrdersRouter} from './routes/new';
 import {deleteOrderRouter} from './routes/delete';
 import {showOrdersRouter} from './routes/show';
+import {showTicketsRouter} from "./routes/tickets";
 
 // Vars
 const PORT: number = 3000;
@@ -35,6 +36,7 @@ app.use(indexOrdersRouter);
 app.use(newOrdersRouter);
 app.use(showOrdersRouter);
 app.use(deleteOrderRouter);
+app.use(showTicketsRouter);
 
 app.all('*', async () => {
     throw new NotFoundError();

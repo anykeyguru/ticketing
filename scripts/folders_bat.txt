@@ -1,0 +1,5 @@
+D:\Personal\SCHOOL\JS\Mservices\02\ticketing\auth
+D:\Personal\SCHOOL\JS\Mservices\02\ticketing\orders
+D:\Personal\SCHOOL\JS\Mservices\02\ticketing\tickets
+D:\Personal\SCHOOL\JS\Mservices\02\ticketing\expiration
+D:\Personal\SCHOOL\JS\Mservices\02\ticketing\payments

@@ -16,14 +16,17 @@ router.delete(
         if (!order) {
             throw new NotFoundError();
         }
+
         if (order.userId !== req.currentUser!.id) {
             throw new NotAuthorisedError();
         }
+        
         if (order.status === OrderStatus.Cancelled) {
             throw new NotFoundError();
         }
         order.status = OrderStatus.Cancelled;
         await order.save();
+
         // publishing an event saying this was cancelled!
         await new OrderCancelledPublisher(natsWrapper.client).publish({
             id: order.id,
