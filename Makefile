@@ -8,8 +8,10 @@ init:
 	@kubectl create secret generic jwt-secret --from-literal=JWT_KEY=$(JWT_KEY) || true
 	@kubectl create secret generic client-baseurl --from-literal=CLIENT_BASE_URL=$(CLIENT_BASE_URL) || true
 	@kubectl create secret generic stripe-secret --from-literal=STRIPE_KEY=$(STRIPE_KEY) || true
+	@kubectl create secret generic stripe-public --from-literal=STRIPE_PUB_KEY=$(STRIPE_PUB_KEY) || true
+	@kubectl create secret generic timezone-secret --from-literal=TIMEZONE=$(TIMEZONE) || true
 
-minikube-create:
+minikube-create-docker:
 	@minikube stop || true
 	@minikube delete || true
 	@rm -rf ~/.minikube
@@ -20,6 +22,19 @@ minikube-create:
 	@minikube ssh -- sudo chown -R docker:docker /data
 	@sleep 20
 	@echo "initialise environments vars"
+	@make init
+minikube-create-vbox:
+	@minikube stop || true
+	@minikube delete || true
+	@rm -rf ~/.minikube
+	@minikube start --memory 4096 --cpus 4 --driver virtualbox  --cache-images --addons ingress
+	@sleep 20
+	@echo "define owner for /data folder"
+	@minikube ssh -- mkdir /data
+	@minikube ssh -- sudo chown -R docker:docker /data
+	@sleep 20
+	@echo "initialise environments vars"
+	@minikube kubectl -- get pods
 	@make init
 
 eval:

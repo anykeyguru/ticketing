@@ -1,16 +1,16 @@
-import express, { Request, Response } from 'express';
-import { body } from 'express-validator';
+import express, {Request, Response} from 'express';
+import {body} from 'express-validator';
 import jwt from 'jsonwebtoken';
 // Middlewares
-import { validateRequest, BadRequestError } from '@qptickets/common';
+import {validateRequest, BadRequestError} from '@qptickets/common';
 // User
-import { User } from "../models/user";
+import {User} from "../models/user";
 // Errors
 // Services
-import { Password } from '../services/password';
+import {Password} from '../services/password';
 
 const router = express.Router();
-
+const expiresIn = '1h'; // Expiration time, e.g., 1h for 1 hour
 interface User {
     user: string;
     password: string;
@@ -28,8 +28,8 @@ router.post('/api/users/signin',
     ],
     validateRequest,
     async (req: Request, res: Response) => {
-        const { email, password } = req.body;
-        const existingUser = await User.findOne({ email });
+        const {email, password} = req.body;
+        const existingUser = await User.findOne({email});
         if (!existingUser) {
             throw new BadRequestError('Sorry, invalid Credentials');
         }
@@ -46,7 +46,7 @@ router.post('/api/users/signin',
         const userJWT = jwt.sign({
             id: existingUser.id,
             email: existingUser.email
-        }, process.env.JWT_KEY!);
+        }, process.env.JWT_KEY!, {expiresIn});
 
         // Store it on session object
         req.session = {
@@ -58,4 +58,4 @@ router.post('/api/users/signin',
         res.status(201).send(existingUser);
     });
 
-export { router as signInRouter };
+export {router as signInRouter};

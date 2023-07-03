@@ -7,6 +7,7 @@ import {natsWrapper} from './nats-wrapper';
 //Listeners
 import {OrderCreatedListener} from "./events/listeners/order-created-listener";
 import {OrderCancelledListener} from "./events/listeners/order-cancelled-listener";
+import {PaymentCreatedListener} from "./events/listeners/payment-created-listener";
 
 // Vars
 const PORT: number = 3000;
@@ -58,6 +59,7 @@ const start = async () => {
 
         new OrderCreatedListener(natsWrapper.client).listen();
         new OrderCancelledListener(natsWrapper.client).listen();
+        new PaymentCreatedListener(natsWrapper.client).listen();
 
         await mongoose.connect(process.env.MONGO_URI, options).catch((error) => {
             console.log(`Mconn ${error.messages}`);

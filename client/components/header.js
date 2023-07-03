@@ -3,16 +3,17 @@ import Link from 'next/link';
 
 export default ({currentUser}) => {
     const links = [
-        !currentUser && {label: 'Sign In', href: '/auth/signin'},
-        !currentUser && {label: 'Sign Up', href: '/auth/signup'},
-        currentUser && {label: 'New Ticket', href: '/tickets/new'},
-        currentUser && {label: 'Sign Out', href: '/auth/signout'},
+        !currentUser && {label: 'Sign In', href: '/auth/signin', k: "asdfhgkasd"},
+        !currentUser && {label: 'Sign Up', href: '/auth/signup', k: "asdfasbvdsd"},
+        currentUser && {label: 'Sell Tickets', href: '/tickets/new', k: "asddsfvfasd"},
+        currentUser && {label: 'My Orders', href: '/orders', k: "asdsd"},
+        currentUser && {label: 'Sign Out', href: '/auth/signout', k: "asdfdgfdhsasd"},
     ]
         .filter(linkConfig => linkConfig)
-        .map(({label, href}) => {
+        .map(({label, href, k}, i) => {
             return (
-                <li key={href} className="nav-item">
-                    <Link href={href} className="nav-link">
+                <li key={k} className="nav-item">
+                    <Link key={href} href={href} className="nav-link">
                         {label}
                     </Link>
                 </li>
@@ -23,13 +24,11 @@ export default ({currentUser}) => {
 
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid ">
-                <Link href="/" className='navbar-brand'>
+                <Link key="dsfdsfdsf" href="/" className='navbar-brand'>
                     GitTix
                 </Link>
                 <div className="collapse navbar-collapse justify-content-end">
-                    <ul className="navbar-nav">
-                        {links}
-                    </ul>
+                    <ul className="nav d-flex align-items-center">{links}</ul>
                 </div>
             </div>
         </nav>

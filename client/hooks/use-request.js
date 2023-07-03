@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { useState } from 'react';
+import {useState} from 'react';
 
 
-export default ({ url, method, body, onSuccess }) => {
+export default ({url, method, body, onSuccess}) => {
     const [errors, setErrors] = useState(null);
 
-    const doRequest = async () => {
+    const doRequest = async (props = {}) => {
 
         // Some cofig
         const instance = axios.create({
@@ -15,7 +15,10 @@ export default ({ url, method, body, onSuccess }) => {
         // Request
         try {
             setErrors(null);
-            const response = await instance[method](url, body);
+            const response = await instance[method](url, {
+                ...body,
+                ...props
+            });
             if (onSuccess) {
                 onSuccess(response.data)
             }
@@ -30,7 +33,7 @@ export default ({ url, method, body, onSuccess }) => {
                         {
                             err.response.data.errors.map(error => (
                                 <li key={error.field}>
-                                    Field: {error.field} <br />
+                                    Field: {error.field} <br/>
                                     Error: {error.message}
                                 </li>
                             ))
@@ -41,5 +44,5 @@ export default ({ url, method, body, onSuccess }) => {
         }
     };
 
-    return { doRequest, errors }
+    return {doRequest, errors}
 }

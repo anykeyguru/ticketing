@@ -1,0 +1,53 @@
+version: '3'
+services:
+  mongodb-tickets:
+    image: mongo:6.0.6
+    container_name: mongodb
+    env_file:
+      - .env
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/appdata/mongo/tickets:/data/db
+
+  auth:
+    build:
+      context: ./auth
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+
+  expiration:
+    build:
+      context: ./expiration
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+
+  orders:
+    build:
+      context: ./orders
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+
+  payment:
+    build:
+      context: ./payment
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+
+  tickets:
+    build:
+      context: ./tickets
+      dockerfile: Dockerfile
+    env_file:
+      - .env
