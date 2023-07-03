@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: order-mo-data-pv
+  name: payments-mo-data-pv
 spec:
   accessModes:
     - ReadWriteOnce
   capacity:
     storage: 100Mi
   hostPath:
-    path: /data/mongo/order
+    path: /home/ernest/projects/ticketing/data/mongo/payments
     type: ""
   persistentVolumeReclaimPolicy: Retain
   storageClassName: standard
@@ -17,7 +17,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: order-mo-data-pvc
+  name: payments-mo-data-pvc
 spec:
   storageClassName: standard
   accessModes:

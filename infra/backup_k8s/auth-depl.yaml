@@ -19,13 +19,19 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
             - name: MONGO_URI
-              value: 'mongodb://tickets-mongo-srv:27017/auth'
+              value: 'mongodb://auth-mongo-srv:27017/auth'
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
                   name: jwt-secret
                   key: JWT_KEY
-
+          volumeMounts:
+            - mountPath: /tmp/service
+              name: service-data
+      volumes:
+        - name: service-data
+          persistentVolumeClaim:
+            claimName: service-pvc
 ---
 apiVersion: v1
 kind: Service

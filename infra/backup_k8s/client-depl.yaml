@@ -11,17 +11,12 @@ spec:
     metadata:
       labels:
         app: client
-    spec:
+    spec: 
       containers:
         - name: client
           image: ernestmr/client
           imagePullPolicy: IfNotPresent
           env:
-            - name: NEXT_PUBLIC_STRIPE_PUB_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: stripe-public
-                  key: STRIPE_PUB_KEY
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:

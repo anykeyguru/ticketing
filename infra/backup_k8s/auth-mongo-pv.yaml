@@ -8,7 +8,7 @@ spec:
   capacity:
     storage: 100Mi
   hostPath:
-    path: /data/mongo/auth
+    path: /home/ernest/projects/ticketing/data/mongo/auth
     type: ""
   persistentVolumeReclaimPolicy: Retain
   storageClassName: standard
