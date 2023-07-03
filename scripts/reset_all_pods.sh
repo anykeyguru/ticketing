@@ -18,16 +18,22 @@ pods_arr+=("payments-depl")
 pods_arr+=("tickets-depl")
 pods_arr+=("client-depl")
 
+if [ $# -gt 0 ]; then
+  pod=$(kubectl get pods --no-headers | awk -v name="$1" '$0 ~ name {print $1}')
+  kubectl delete pod "$pod"
+else
+  for pod_name in "${pods_arr[@]}"; do
+      pod=$(kubectl get pods --no-headers | awk -v name="$pod_name" '$0 ~ name {print $1}')
+      if [[ -n "$pod" ]]; then
+          kubectl delete pod "$pod"
+        else
+          echo "Pod '$pod_name' not found."
+        fi
+      sleep 5
+  done
+fi
 
-for pod_name in "${pods_arr[@]}"; do
-    pod=$(kubectl get pods --no-headers | awk -v name="$pod_name" '$0 ~ name {print $1}')
-    if [[ -n "$pod" ]]; then
-        kubectl delete pod "$pod"
-      else
-        echo "Pod '$pod_name' not found."
-      fi
-    sleep 5
-done
+
 
 
 

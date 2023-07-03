@@ -18,10 +18,10 @@ echo "Done"
 sleep 5
 echo ""
 echo "STOPPING DATABASES..."
-kubectl delete -f infra/k8s/auth-mongo-depl.yaml
+#kubectl delete -f infra/k8s/auth-mongo-depl.yaml
 kubectl delete -f infra/k8s/tickets-mongo-depl.yaml
-kubectl delete -f infra/k8s/orders-mongo-depl.yaml
-kubectl delete -f infra/k8s/payments-mongo-depl.yaml
+#kubectl delete -f infra/k8s/orders-mongo-depl.yaml
+#kubectl delete -f infra/k8s/payments-mongo-depl.yaml
 echo "Done"
 
 sleep 5
@@ -41,9 +41,11 @@ echo "STOPPING EXPIRATION REDIS..."
 kubectl delete -f infra/k8s/expiration-redis-depl.yaml
 echo "Done"
 
-echo "STOPPING DONE"
+echo "INFRA STOPPED"
 echo "====================================================="
-echo ""
+echo "BACKUP DB"
+minikube ssh -- sudo  rsync -av --delete /home/docker/appdata /hosthome/ernest/projects/ticketing/data
+echo "Done"
 
 
 

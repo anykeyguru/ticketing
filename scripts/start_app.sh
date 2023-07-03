@@ -11,22 +11,23 @@ sleep 5
 echo ""
 echo "START VOLUMES..."
 kubectl apply -f infra/k8s/ticket-mongo-pv.yaml
-kubectl apply -f infra/k8s/auth-mongo-pv.yaml
-kubectl apply -f infra/k8s/order-mongo-pv.yaml
-kubectl apply -f infra/k8s/payments-mongo-pv.yaml
+#kubectl apply -f infra/k8s/auth-mongo-pv.yaml
+#kubectl apply -f infra/k8s/order-mongo-pv.yaml
+#kubectl apply -f infra/k8s/payments-mongo-pv.yaml
 kubectl apply -f infra/k8s/service-pv.yaml
 echo "Done"
 
 sleep 10
-echo ""
+echo "RESTORE DB"
+#minikube ssh -- sudo  rsync -avp --delete  /hosthome/ernest/projects/ticketing/data/appdata/* /home/docker/appdata/
 echo "START DATABASES..."
-kubectl apply -f infra/k8s/auth-mongo-depl.yaml
+#kubectl apply -f infra/k8s/auth-mongo-depl.yaml
 sleep 5
 kubectl apply -f infra/k8s/tickets-mongo-depl.yaml
 sleep 5
-kubectl apply -f infra/k8s/orders-mongo-depl.yaml
+#kubectl apply -f infra/k8s/orders-mongo-depl.yaml
 sleep 5
-kubectl apply -f infra/k8s/payments-mongo-depl.yaml
+#kubectl apply -f infra/k8s/payments-mongo-depl.yaml
 echo "Done"
 
 sleep 30
