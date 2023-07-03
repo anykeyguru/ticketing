@@ -1,15 +1,18 @@
-import { app } from './app';
+import {app} from './app';
 // DB Mongo
 import mongoose from 'mongoose';
 // Vars
 const PORT: number = 3000;
 const start = async () => {
+    console.log("Starting ...")
     if (!process.env.JWT_KEY) {
         throw new Error("JWT_KEY must be defined");
-    };
+    }
+    ;
     if (!process.env.MONGO_URI) {
         throw new Error("MONGO_URI must be defined");
-    };
+    }
+    ;
     const options = {
         // autoIndex: false, // Don't build indexes
         // maxPoolSize: 10, // Maintain up to 10 socket connections
