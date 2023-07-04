@@ -11,7 +11,7 @@ import {OrderCancelledListener} from "./events/listeners/order-cancelled-listene
 // Vars
 const PORT: number = 3000;
 const start = async () => {
-    console.log('Starting...');
+    console.log(`Starting on port ${PORT} ...`);
     if (!process.env.JWT_KEY) {
         throw new Error("JWT_KEY must be defined");
     }
