@@ -13,17 +13,13 @@ jobs:
      - uses: action/checkout@v2
      - uses: digitalocean/action-doct@v2
        with:
-        token: $DIGITALOCEAN_ACCESS_TOKEN
-     - shell: bash
-       env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          DIGITALOCEAN_ACCESS_TOKEN: ${{secret.DIGITALOCEAN_ACCESS_TOKEN}}
-          
+        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
      - run: doctl kubernetes cluster kubeconfig save ticketing
      - run: |
         # Update deployment
         kubectl apply -f infra/k8s && kubectl apply -f infra/k8s-prod
+
+
      
      
       
