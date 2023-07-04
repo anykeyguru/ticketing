@@ -3,7 +3,7 @@ name: deploy-auth
 on:
   push:
     branches:
-      - main_test
+      - main
     paths:
       - 'auth/**'
 jobs:
