@@ -16,7 +16,6 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DIGITALOCEAN_ACCESS_TOKEN: ${{secret.DIGITALOCEAN_ACCESS_TOKEN}}
-
       - run: |
           # Build new image
           cd auth && docker build -t $DOCKER_USERNAME/mk-auth . \
