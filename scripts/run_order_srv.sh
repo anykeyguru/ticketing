@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
-kubectl apply -f infra/k8s/nats-depl.yaml
+INFRA_PATH=$INFRA_PATH
+kubectl apply -f $INFRA_PATH/nats-depl.yaml
 
 sleep 5
-kubectl apply -f infra/k8s/orders-mongo-depl.yaml
+kubectl apply -f $INFRA_PATH/orders-mongo-depl.yaml
 
 sleep 5
-kubectl apply -f infra/k8s/orders-depl.yaml
+kubectl apply -f $INFRA_PATH/orders-depl.yaml
 
 sleep 5
-kubectl apply -f infra/k8s/ingress-srv.yaml
+kubectl apply -f $INFRA_PATH/ingress-srv.yaml

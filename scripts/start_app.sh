@@ -1,55 +1,48 @@
 echo "START"
 echo ""
 echo "START NATS..."
-kubectl apply -f infra/k8s/nats-depl.yaml
+INFRA_PATH=infra/k8s-local_dev
+INGRESS_PATH=infra/k8s-dev
+SLEEPTIME=2
+kubectl apply -f $INFRA_PATH/nats-depl.yaml
 echo "START EXPIRATION REDIS..."
-kubectl apply -f infra/k8s/expiration-redis-depl.yaml
+kubectl apply -f $INFRA_PATH/expiration-redis-depl.yaml
 
 echo "Done"
 
-sleep 5
+sleep $SLEEPTIME
 echo ""
 echo "START VOLUMES..."
-kubectl apply -f infra/k8s/ticket-mongo-pv.yaml
-#kubectl apply -f infra/k8s/auth-mongo-pv.yaml
-#kubectl apply -f infra/k8s/order-mongo-pv.yaml
-#kubectl apply -f infra/k8s/payments-mongo-pv.yaml
-kubectl apply -f infra/k8s/service-pv.yaml
+kubectl apply -f $INFRA_PATH/ticket-mongo-pv.yaml
+kubectl apply -f $INFRA_PATH/service-pv.yaml
 echo "Done"
 
-sleep 10
-echo "RESTORE DB"
-#minikube ssh -- sudo  rsync -avp --delete  /hosthome/ernest/projects/ticketing/data/appdata/* /home/docker/appdata/
+sleep $SLEEPTIME
 echo "START DATABASES..."
-#kubectl apply -f infra/k8s/auth-mongo-depl.yaml
-sleep 5
-kubectl apply -f infra/k8s/tickets-mongo-depl.yaml
-sleep 5
-#kubectl apply -f infra/k8s/orders-mongo-depl.yaml
-sleep 5
-#kubectl apply -f infra/k8s/payments-mongo-depl.yaml
+kubectl apply -f $INFRA_PATH/tickets-mongo-depl.yaml
+sleep $SLEEPTIME
 echo "Done"
 
-sleep 30
+sleep $SLEEPTIME
 echo ""
 echo "START DEPLOYMENTS..."
-kubectl apply -f infra/k8s/auth-depl.yaml
-sleep 30
-kubectl apply -f infra/k8s/tickets-depl.yaml
-sleep 30
-kubectl apply -f infra/k8s/orders-depl.yaml
-sleep 30
-kubectl apply -f infra/k8s/client-depl.yaml
-sleep 30
-kubectl apply -f infra/k8s/expiration-depl.yaml
-sleep 30
-kubectl apply -f infra/k8s/payments-depl.yaml
+kubectl apply -f $INFRA_PATH/auth-depl.yaml
+sleep $SLEEPTIME
+kubectl apply -f $INFRA_PATH/tickets-depl.yaml
+sleep $SLEEPTIME
+kubectl apply -f $INFRA_PATH/orders-depl.yaml
+sleep $SLEEPTIME
+kubectl apply -f $INFRA_PATH/client-depl.yaml
+sleep $SLEEPTIME
+kubectl apply -f $INFRA_PATH/expiration-depl.yaml
+sleep $SLEEPTIME
+kubectl apply -f $INFRA_PATH/payments-depl.yaml
 echo "Done"
 
-sleep 30
+sleep $SLEEPTIME
 echo ""
 echo "START INGRESS..."
-kubectl apply -f infra/k8s/ingress-srv.yaml
+kubectl apply -f $INGRESS_PATH/ingress-srv.yaml
 echo "Done"
 
 kubectl get pods

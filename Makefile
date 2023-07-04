@@ -120,7 +120,7 @@ sync-common:
 
 
 shutdown-global:
-	@kubectl delete -f infra/k8s || true
+	@kubectl delete -f infra/k8s-local_dev || true
 	@minikube stop
 
 powerup-global:
