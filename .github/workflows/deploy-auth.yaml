@@ -24,13 +24,13 @@ jobs:
           && docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD \
           && docker push $DOCKER_USERNAME/mk-auth
      
-     - uses: digitalocean/action-doct@v2
-       with:
-         token: $DIGITALOCEAN_ACCESS_TOKEN
-     - run: doctl kubernetes cluster kubeconfig save ticketing
-     - run: |
-        # Update deployment
-        kubectl rollout restart deployment auth-depl
+#      - uses: digitalocean/action-doct@v2
+#        with:
+#          token: $DIGITALOCEAN_ACCESS_TOKEN
+#      - run: doctl kubernetes cluster kubeconfig save ticketing
+#      - run: |
+#         # Update deployment
+#         kubectl rollout restart deployment auth-depl
      
      
       
