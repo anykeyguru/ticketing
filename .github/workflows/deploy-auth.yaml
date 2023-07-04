@@ -2,22 +2,22 @@ name: deploy-auth
 
 on:
   push:
-    branches: 
-      - main
+    branches:
+      - main_test
     paths:
       - 'auth/**'
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-     - uses: actions/checkout@v2
-     - shell: bash
-       env:
+      - uses: actions/checkout@v2
+      - shell: bash
+        env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DIGITALOCEAN_ACCESS_TOKEN: ${{secret.DIGITALOCEAN_ACCESS_TOKEN}}
-          
-     - run: |
+
+      - run: |
           # Build new image
           cd auth && docker build -t $DOCKER_USERNAME/mk-auth . \
           # Push to docker hub
