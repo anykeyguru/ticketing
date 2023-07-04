@@ -3,11 +3,12 @@ include .env
 export
 init:
 	@make eval
+	@kubectl create secret generic jwt-secret --from-literal=JWT_KEY=$(JWT_KEY) || true
+	@kubectl create secret generic stripe-secret --from-literal=STRIPE_KEY=$(STRIPE_KEY) || true
+
 	@kubectl create secret generic next-telemetry-disable  --from-literal=NEXT_TELEMETRY_DISABLED=1 || true
 	@kubectl create secret generic next-telemetry --from-literal=NEXT_TELEMETRY=1 || true
-	@kubectl create secret generic jwt-secret --from-literal=JWT_KEY=$(JWT_KEY) || true
 	@kubectl create secret generic client-baseurl --from-literal=CLIENT_BASE_URL=$(CLIENT_BASE_URL) || true
-	@kubectl create secret generic stripe-secret --from-literal=STRIPE_KEY=$(STRIPE_KEY) || true
 	@kubectl create secret generic stripe-public --from-literal=STRIPE_PUB_KEY=$(STRIPE_PUB_KEY) || true
 	@kubectl create secret generic timezone-secret --from-literal=TIMEZONE=$(TIMEZONE) || true
 
@@ -142,4 +143,14 @@ restart-nats:
 
 logs:
 	@kubectl get pods --namespace default -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}{end}' | xargs -I {} kubectl logs {} --namespace default
+
+
+
+do-deploy-ingress:
+	@kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/do/deploy.yaml
+
+do-check-context:
+	@kubectl config view
+	@echo "kubectl config use-context <context_name>"
+
 .PHONY:  eval
