@@ -6,3 +6,18 @@ on:
       - main
     paths:
       - 'auth/**'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+     - uses: actions/checkout@v2
+     - shell: bash
+       env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+       run: |
+          cd auth && docker build -t $DOCKER_USERNAME/mk-auth . \
+          && docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD \
+          && docker push $DOCKER_USERNAME/mk-auth
+       
+      
