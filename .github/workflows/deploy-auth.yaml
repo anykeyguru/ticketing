@@ -15,8 +15,7 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          DIGITALOCEAN_ACCESS_TOKEN: ${{secret.DIGITALOCEAN_ACCESS_TOKEN}}
-      - run: |
+        run: |
           cd auth && docker build -t $DOCKER_USERNAME/mk-auth . \
           && docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD \
           && docker push $DOCKER_USERNAME/mk-auth
